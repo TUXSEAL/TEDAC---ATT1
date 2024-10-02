@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ post.titulo }}</title>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ post.titulo }}</h1>
+        <img src="{{ post.imagem.url }}" class="img-fluid" alt="{{ post.titulo }}">
+        <p>{{ post.texto }}</p>
+
+        <h3>Comentários</h3>
+        <ul>
+            {% for comentario in post.comentario_set.all %}
+            <li>{{ comentario.texto }} - {{ comentario.com_date }}</li>
+            {% empty %}
+            <li>Sem comentários ainda.</li>
+            {% endfor %}
+        </ul>
+
+        <h4>Adicionar um comentário</h4>
+        <form action="{% url 'adicionar_comentario' post.id %}" method="POST">
+            {% csrf_token %}
+            <textarea name="texto" placeholder="Adicione seu comentário" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</body>
+</html>
